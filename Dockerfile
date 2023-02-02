@@ -18,7 +18,7 @@ COPY --from=builder /usr/bin/terraform-ls /usr/bin/terraform-ls
 COPY --from=builder /usr/bin/az /usr/bin/az
 
 RUN pacman -Syyu --noconfirm stow starship neovim fzf bat exa git-delta mcfly\
-               lazygit kubectl terraform \
+               lazygit kubectl terraform ansible helm \
                fd ripgrep direnv thefuck zoxide \
                tmux zsh sudo \
                shellcheck flake8 cmake aws-cli-v2 && rm -rf /var/cache/pacman/pkg/*
