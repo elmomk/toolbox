@@ -8,7 +8,7 @@ USER build
 RUN rustup default stable
 RUN git clone https://github.com/Morganamilo/paru.git /tmp/paru && cd /tmp/paru && cargo build --release && \
     sudo cp /tmp/paru/target/release/paru /usr/bin/paru
-RUN paru -S fnm 
+RUN paru -S azure-cli-bin
 #
 # copy paru to /usr/bin and install packages
 FROM archlinux:latest
