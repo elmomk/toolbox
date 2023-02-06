@@ -24,3 +24,12 @@ RUN pacman -Syyu --noconfirm stow starship neovim fzf bat exa git-delta mcfly\
 RUN useradd -m devtainer && echo 'devtainer ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/devtainer
 USER devtainer
 RUN rustup default stable
+WORKDIR /home/devtainer
+RUN git clone https://github.com/elmomk/dotfiles
+RUN cd dotfiles && stow -t ~ zsh-personal tmux mo-vim starship
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && \
+    echo "[[ -f ~/.zshrc-personal ]] && . ~/.zshrc-personal" >> ~/.zshrc
+RUN sudo pacman -Syyu --noconfirm make
+RUN fnm install --latest
+RUN nvim --headless +PlugInstall +qall
+RUN nvim --headless +Mason +qall # TODO: fix this to work with mason, currently fails
