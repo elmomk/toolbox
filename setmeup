@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+cd ~ || exit 1
+rustup default stable
+git clone https://github.com/elmomk/dotfiles
+cd dotfiles || exit 1
+stow -t ~ zsh-personal tmux mo-vim starship
+sudo chown -R "$(whoami):$(whoami)" /usr/share #dirty fix to enable this user to install ohmyzsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+echo "[[ -f ~/.zshrc-personal ]] && . ~/.zshrc-personal" >> ~/.zshrc
+fnm install --latest
+nvim
+# nvim --headless +PlugInstall +qall
+# nvim --headless +Mason +qall # TODO: fix this to work with mason, currently fails

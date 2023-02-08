@@ -20,16 +20,18 @@ RUN pacman -Syyu --noconfirm stow starship neovim fzf bat exa git-delta mcfly\
                 fd ripgrep direnv thefuck zoxide \
                 tmux zsh sudo gcc go rustup unzip \
                 kubectl terraform ansible helm aws-cli-v2 \
-                shellcheck flake8 cmake && rm -rf /var/cache/pacman/pkg/*
-RUN useradd -m devtainer && echo 'devtainer ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/devtainer
-USER devtainer
-RUN rustup default stable
-WORKDIR /home/devtainer
-RUN git clone https://github.com/elmomk/dotfiles
-RUN cd dotfiles && stow -t ~ zsh-personal tmux mo-vim starship
-RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && \
-    echo "[[ -f ~/.zshrc-personal ]] && . ~/.zshrc-personal" >> ~/.zshrc
-RUN sudo pacman -Syyu --noconfirm make
-RUN fnm install --latest
-RUN nvim --headless +PlugInstall +qall
-RUN nvim --headless +Mason +qall # TODO: fix this to work with mason, currently fails
+                shellcheck flake8 cmake make && rm -rf /var/cache/pacman/pkg/*
+COPY ./setmeup /usr/bin/
+# TODO: create a user and set it as default, at the moment using distrobox, so no user needed
+# RUN useradd -m devtainer && echo 'devtainer ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/devtainer
+# USER devtainer
+# RUN rustup default stable
+# WORKDIR /home/devtainer
+# RUN git clone https://github.com/elmomk/dotfiles -b "feat/docker" dotfiles # newer
+# RUN cd dotfiles && stow -t ~ zsh-personal tmux mo-vim starship
+# RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && \
+#     echo "[[ -f ~/.zshrc-personal ]] && . ~/.zshrc-personal" >> ~/.zshrc
+# RUN sudo pacman -Syyu --noconfirm make
+# RUN fnm install --latest
+# RUN nvim --headless +PlugInstall +qall
+# RUN nvim --headless +Mason +qall # TODO: fix this to work with mason, currently fails
